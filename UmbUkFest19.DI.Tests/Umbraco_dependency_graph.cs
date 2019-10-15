@@ -4,6 +4,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using NUnit.Framework;
+using Umbraco.Core.Composing;
+using Umbraco.Core.Composing.LightInject;
 using Umbraco.Tests.TestHelpers;
 using Umbraco.Tests.Testing;
 
@@ -25,7 +27,22 @@ namespace UmbUkFest19.DI.Tests
         [Test]
         public void As_Ascii()
         {
-            Assert.Inconclusive();
+            var factory = (LightInjectContainer) Current.Factory;
+            var serviceContainer = (LightInject.ServiceContainer)factory.Concrete;
+
+            var registrations = serviceContainer.AvailableServices
+                .OrderBy(x => x.ServiceType.FullName)
+                .Skip(110)
+                .Take(20);
+
+            var report = registrations
+                .Aggregate("", 
+                    (s, reg) => s + $"\n" +
+                                $"{reg.ServiceType.FullName,-80} " +
+                                $"{reg.ImplementingType?.FullName ?? "factory",-80}" +
+                                $"{reg.Lifetime?.GetType().Name ?? "transient"}");
+            Assert.Inconclusive(report
+            );
         }
     }
 }
