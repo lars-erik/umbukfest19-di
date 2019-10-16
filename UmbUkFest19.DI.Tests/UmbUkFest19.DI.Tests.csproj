@@ -240,6 +240,9 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ConsoleLoggingRegistryInterceptor.cs" />
+    <Compile Include="DecoratingRegistryInterceptor.cs" />
+    <Compile Include="Overriding_Content_Service.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Umbraco_Dependency_Graph.cs" />
   </ItemGroup>
