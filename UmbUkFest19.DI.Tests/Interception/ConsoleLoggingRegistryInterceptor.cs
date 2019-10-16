@@ -1,80 +1,73 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using NUnit.Framework;
 using Umbraco.Core.Composing;
 
-namespace UmbUkFest19.DI.Tests
+namespace UmbUkFest19.DI.Tests.Interception
 {
-    public class DecoratingRegistryInterceptor : IRegister
+    public class ConsoleLoggingRegistryInterceptor : IInterceptingRegister
     {
-        private IRegister inner;
-        private List<(Type serviceType, Type implType)> decorators = new List<(Type serviceType, Type implType)>();
+        private IInterceptingRegister inner;
 
-        public DecoratingRegistryInterceptor(IRegister inner)
+        public ConsoleLoggingRegistryInterceptor(IInterceptingRegister inner)
         {
             this.inner = inner;
         }
-
-        public void Decorate<TService, TImplementation>()
+        
+        public void Decorate<T, T1>()
         {
-            decorators.Add((typeof(TService), typeof(TImplementation)));
+            inner.Decorate<T, T1>();
         }
 
         public void Register(Type serviceType, Lifetime lifetime = Lifetime.Transient)
         {
+            Console.WriteLine($"Register({serviceType.Name}, {lifetime})");
             inner.Register(serviceType, lifetime);
         }
 
         public void Register(Type serviceType, Type implementingType, Lifetime lifetime = Lifetime.Transient)
         {
-            if (decorators.Any(x => x.serviceType == serviceType))
-            {
-                var decorator = decorators.First(x => x.serviceType == serviceType);
-                var methodTemplate = typeof(IRegister).GetMethods()
-                    .First(x => x.Name == "RegisterFor" && x.GetGenericArguments().Length == 2 && x.GetParameters().Length == 2 && x.GetParameters()[0].ParameterType == typeof(Type));
-                var method = methodTemplate.MakeGenericMethod(implementingType, decorator.implType);
-                method.Invoke(inner, new object[] {implementingType, lifetime});
-                inner.Register(serviceType, decorator.implType, lifetime);
-            }
-            else
-            {
-                inner.Register(serviceType, implementingType, lifetime);
-            }
+            Console.WriteLine($"Register({serviceType.Name}, {implementingType.Name}, {lifetime})");
+            inner.Register(serviceType, implementingType, lifetime);
         }
 
         public void Register<TService>(Func<IFactory, TService> factory, Lifetime lifetime = Lifetime.Transient) where TService : class
         {
+            Console.WriteLine($"Register<{typeof(TService).Name}>(Func<IFactory, {typeof(TService).Name}> {factory}, {lifetime})");
             inner.Register(factory, lifetime);
         }
 
         public void Register(Type serviceType, object instance)
         {
+            Console.WriteLine($"Register({serviceType.Name}, instance of {instance.GetType().Name})");
             inner.Register(serviceType, instance);
         }
 
         public void RegisterFor<TService, TTarget>(Lifetime lifetime = Lifetime.Transient) where TService : class
         {
+            Console.WriteLine($"RegisterFor<{typeof(TService).Name}, {typeof(TTarget).Name}>({lifetime})");
             inner.RegisterFor<TService, TTarget>(lifetime);
         }
 
         public void RegisterFor<TService, TTarget>(Type implementingType, Lifetime lifetime = Lifetime.Transient) where TService : class
         {
+            Console.WriteLine($"RegisterFor<{typeof(TService).Name}, {typeof(TTarget).Name}>({implementingType.Name}, {lifetime})");
             inner.RegisterFor<TService, TTarget>(implementingType, lifetime);
         }
 
         public void RegisterFor<TService, TTarget>(Func<IFactory, TService> factory, Lifetime lifetime = Lifetime.Transient) where TService : class
         {
+            Console.WriteLine($"RegisterFor<{typeof(TService).Name}, {typeof(TTarget).Name}>({factory}, {lifetime})");
             inner.RegisterFor<TService, TTarget>(factory, lifetime);
         }
 
         public void RegisterFor<TService, TTarget>(TService instance) where TService : class
         {
+            Console.WriteLine($"RegisterFor<{typeof(TService).Name}, {typeof(TTarget).Name}>(instance of {instance.GetType().Name})");
             inner.RegisterFor<TService, TTarget>(instance);
         }
 
         public void RegisterAuto(Type serviceBaseType)
         {
+            Console.WriteLine($"RegisterAuto({serviceBaseType.Name})");
             inner.RegisterAuto(serviceBaseType);
         }
 
