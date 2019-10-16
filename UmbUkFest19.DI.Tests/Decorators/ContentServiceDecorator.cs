@@ -11,6 +11,7 @@ namespace UmbUkFest19.DI.Tests.Decorators
     public class ContentServiceDecorator : IContentService
     {
         private IContentService inner;
+        private List<string> calls = new List<string>();
 
         public ContentServiceDecorator(ContentService inner)
         {
@@ -18,6 +19,11 @@ namespace UmbUkFest19.DI.Tests.Decorators
         }
 
         public IContentService Inner => inner;
+
+        public List<string> Calls()
+        {
+            return calls;
+        }
 
         public IContent GetBlueprintById(int id)
         {
@@ -81,6 +87,7 @@ namespace UmbUkFest19.DI.Tests.Decorators
 
         public IEnumerable<IContent> GetByLevel(int level)
         {
+            calls.Add($"GetByLevel({level})");
             return inner.GetByLevel(level);
         }
 
@@ -171,6 +178,8 @@ namespace UmbUkFest19.DI.Tests.Decorators
 
         public int Count(string documentTypeAlias = null)
         {
+            calls.Add($"Count({documentTypeAlias ?? "null"})");
+
             return inner.Count(documentTypeAlias);
         }
 
@@ -358,5 +367,6 @@ namespace UmbUkFest19.DI.Tests.Decorators
         {
             return inner.Rollback(id, versionId, culture, userId);
         }
+
     }
 }

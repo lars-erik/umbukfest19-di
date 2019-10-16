@@ -252,6 +252,9 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />
+    <None Include="Configurations\UmbracoSettings\umbracoSettings.config" />
+    <None Include="Configurations\UmbracoSettings\umbracoSettings.minimal.config" />
+    <None Include="Configurations\UmbracoSettings\web.config" />
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup />
