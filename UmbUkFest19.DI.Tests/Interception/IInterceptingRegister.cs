@@ -1,4 +1,5 @@
-﻿using Umbraco.Core.Composing;
+﻿using System;
+using Umbraco.Core.Composing;
 
 namespace UmbUkFest19.DI.Tests.Interception
 {

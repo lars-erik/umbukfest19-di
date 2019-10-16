@@ -245,6 +245,7 @@
     <Compile Include="Interception\DecoratingRegistryInterceptor.cs" />
     <Compile Include="Interception\IInterceptingRegister.cs" />
     <Compile Include="InterceptorTestBase.cs" />
+    <Compile Include="Overriding_NonUnique_Factory.cs" />
     <Compile Include="Overriding_Unique.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Setup_UmbracoTest_Discovery.cs" />
