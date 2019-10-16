@@ -24,32 +24,43 @@ namespace UmbUkFest19.DI.Tests
         protected override void Compose()
         {
             Console.WriteLine();
+            #region Magic
 
             base.Compose();
 
-            var decoratingInterceptor = new DecoratingRegistryInterceptor(
-                Composition
-            );
-            interceptor = //new ConsoleLoggingRegistryInterceptor(
-                decoratingInterceptor
-            //)
-            ;
+            var decoratingInterceptor = new DecoratingRegistryInterceptor(Composition);
+            interceptor = DecorateInterceptor(decoratingInterceptor);
 
-            uniques = (Dictionary<string, Action<IRegister>>)Composition
-                .GetType()
-                .GetField("_uniques", BindingFlags.Instance | BindingFlags.NonPublic)
-                .GetValue(Composition);
-            var keys = uniques.Keys.ToArray();
+            uniques = ExtractUniques();
+            InterceptUniques(uniques, interceptor);
 
-            // Route registration through decorator
-            foreach (var key in keys)
-            {
-                var oldFactory = uniques[key];
-                uniques[key] = r => oldFactory(interceptor);
-            }
+            #endregion
 
             // This test req's
             decoratingInterceptor.Decorate<IContentService, ContentServiceDecorator>();
+        }
+
+        private static void InterceptUniques(Dictionary<string, Action<IRegister>> uniques, IRegister interceptor)
+        {
+            var keys = uniques.Keys.ToArray();
+            foreach (var key in keys)
+            {
+                var existingFactory = uniques[key];
+                uniques[key] = r => existingFactory(interceptor);
+            }
+        }
+
+        private Dictionary<string, Action<IRegister>> ExtractUniques()
+        {
+            return (Dictionary<string, Action<IRegister>>)Composition
+                .GetType()
+                .GetField("_uniques", BindingFlags.Instance | BindingFlags.NonPublic)
+                .GetValue(Composition);
+        }
+
+        protected virtual IRegister DecorateInterceptor(IRegister register)
+        {
+            return register;
         }
 
         [Test]
