@@ -27,7 +27,7 @@ namespace UmbUkFest19.DI.Tests
         [Test]
         public void Passes_Original_To_Decorating_Type()
         {
-            var contentService = Current.Factory.GetInstance(typeof(IContentService));
+            var contentService = Current.Factory.GetInstance<IContentService>();
             Assert.IsInstanceOf(typeof(ContentServiceDecorator), contentService);
             Assert.IsInstanceOf(typeof(ContentService), ((ContentServiceDecorator)contentService).Inner);
         }
