@@ -18,7 +18,7 @@ namespace UmbUkFest19.DI.Core.Interception
             this.inner = inner;
 
             Uniques = ExtractUniques();
-            InterceptUniques(Uniques, inner);
+            InterceptUniques(Uniques, this);
         }
 
         private static void InterceptUniques(Dictionary<string, Action<IRegister>> uniques, IRegister interceptor)

@@ -68,14 +68,14 @@ namespace UmbUkFest19.DI.Core.Decorators
         public IContent GetById(int id)
         {
             var content = inner.GetById(id);
-            content.Name += " 😁";
+            content.Name += " :D";
             return content;
         }
 
         public IContent GetById(Guid key)
         {
             var content = inner.GetById(key);
-            content.Name += " 😁";
+            content.Name += " :D";
             return content;
         }
 
@@ -209,7 +209,7 @@ namespace UmbUkFest19.DI.Core.Decorators
 
         public OperationResult Save(IContent content, int userId = -1, bool raiseEvents = true)
         {
-            content.Name.Replace(" 😁", "");
+            content.Name.Replace(" :D", "");
 
             return inner.Save(content, userId, raiseEvents);
         }
@@ -286,14 +286,14 @@ namespace UmbUkFest19.DI.Core.Decorators
 
         public PublishResult SaveAndPublish(IContent content, string culture = "*", int userId = -1, bool raiseEvents = true)
         {
-            content.Name.Replace(" 😁", "");
+            content.Name = content.Name.Replace(" :D", "");
 
             return inner.SaveAndPublish(content, culture, userId, raiseEvents);
         }
 
         public PublishResult SaveAndPublish(IContent content, string[] cultures, int userId = -1, bool raiseEvents = true)
         {
-            content.Name.Replace(" 😁", "");
+            content.Name.Replace(" :D", "");
 
             return inner.SaveAndPublish(content, cultures, userId, raiseEvents);
         }
