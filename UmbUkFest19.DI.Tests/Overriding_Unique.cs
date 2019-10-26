@@ -5,7 +5,7 @@ using Umbraco.Core.Composing;
 using Umbraco.Core.Services;
 using Umbraco.Core.Services.Implement;
 using Umbraco.Tests.Testing;
-using UmbUkFest19.DI.Tests.Decorators;
+using UmbUkFest19.DI.Core.Decorators;
 
 namespace UmbUkFest19.DI.Tests
 {

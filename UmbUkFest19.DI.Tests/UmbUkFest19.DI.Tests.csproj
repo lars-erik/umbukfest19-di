@@ -231,6 +231,7 @@
     </Reference>
     <Reference Include="Umbraco.Tests, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\Our.Umbraco.Community.Tests.8.2.0\lib\Umbraco.Tests.dll</HintPath>
+      <SpecificVersion>False</SpecificVersion>
     </Reference>
     <Reference Include="Umbraco.Web, Version=8.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\UmbracoCms.Web.8.2.0\lib\net472\Umbraco.Web.dll</HintPath>
@@ -241,9 +242,6 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Interception\ConsoleLoggingRegistryInterceptor.cs" />
-    <Compile Include="Decorators\ContentServiceDecorator.cs" />
-    <Compile Include="Interception\DecoratingRegistryInterceptor.cs" />
-    <Compile Include="Interception\IInterceptingRegister.cs" />
     <Compile Include="InterceptorTestBase.cs" />
     <Compile Include="Overriding_NonUnique_Factory.cs" />
     <Compile Include="Overriding_Unique.cs" />
@@ -258,7 +256,12 @@
     <None Include="Configurations\UmbracoSettings\web.config" />
     <None Include="packages.config" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <ProjectReference Include="..\UmbUkFest19.DI.Core\UmbUkFest19.DI.Core.csproj">
+      <Project>{ABF387BF-15C6-4D93-836F-90E55A6C5CC9}</Project>
+      <Name>UmbUkFest19.DI.Core</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="..\packages\Umbraco.SqlServerCE.4.0.0.1\build\Umbraco.SqlServerCE.targets" Condition="Exists('..\packages\Umbraco.SqlServerCE.4.0.0.1\build\Umbraco.SqlServerCE.targets')" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">

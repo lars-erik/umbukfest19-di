@@ -6,7 +6,7 @@ using Umbraco.Core.Persistence.Querying;
 using Umbraco.Core.Services;
 using Umbraco.Core.Services.Implement;
 
-namespace UmbUkFest19.DI.Tests.Decorators
+namespace UmbUkFest19.DI.Core.Decorators
 {
     public class ContentServiceDecorator : IContentService
     {
@@ -67,12 +67,16 @@ namespace UmbUkFest19.DI.Tests.Decorators
 
         public IContent GetById(int id)
         {
-            return inner.GetById(id);
+            var content = inner.GetById(id);
+            content.Name += " 😁";
+            return content;
         }
 
         public IContent GetById(Guid key)
         {
-            return inner.GetById(key);
+            var content = inner.GetById(key);
+            content.Name += " 😁";
+            return content;
         }
 
         public IEnumerable<IContent> GetByIds(IEnumerable<int> ids)
@@ -205,6 +209,8 @@ namespace UmbUkFest19.DI.Tests.Decorators
 
         public OperationResult Save(IContent content, int userId = -1, bool raiseEvents = true)
         {
+            content.Name.Replace(" 😁", "");
+
             return inner.Save(content, userId, raiseEvents);
         }
 
@@ -280,11 +286,15 @@ namespace UmbUkFest19.DI.Tests.Decorators
 
         public PublishResult SaveAndPublish(IContent content, string culture = "*", int userId = -1, bool raiseEvents = true)
         {
+            content.Name.Replace(" 😁", "");
+
             return inner.SaveAndPublish(content, culture, userId, raiseEvents);
         }
 
         public PublishResult SaveAndPublish(IContent content, string[] cultures, int userId = -1, bool raiseEvents = true)
         {
+            content.Name.Replace(" 😁", "");
+
             return inner.SaveAndPublish(content, cultures, userId, raiseEvents);
         }
 

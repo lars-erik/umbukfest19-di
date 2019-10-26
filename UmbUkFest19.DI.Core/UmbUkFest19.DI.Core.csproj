@@ -142,6 +142,10 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="DecoratingComposer.cs" />
+    <Compile Include="Interception\DecoratingRegistryInterceptor.cs" />
+    <Compile Include="Decorators\ContentServiceDecorator.cs" />
+    <Compile Include="Interception\IInterceptingRegister.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

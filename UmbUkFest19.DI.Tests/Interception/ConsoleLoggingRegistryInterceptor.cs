@@ -1,5 +1,6 @@
 ﻿using System;
 using Umbraco.Core.Composing;
+using UmbUkFest19.DI.Core.Interception;
 
 namespace UmbUkFest19.DI.Tests.Interception
 {

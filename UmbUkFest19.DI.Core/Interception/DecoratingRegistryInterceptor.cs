@@ -1,19 +1,45 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using Umbraco.Core.Composing;
 
-namespace UmbUkFest19.DI.Tests.Interception
+namespace UmbUkFest19.DI.Core.Interception
 {
     public class DecoratingRegistryInterceptor : IInterceptingRegister
     {
         private IRegister inner;
         private List<(Type serviceType, Type implType)> decorators = new List<(Type serviceType, Type implType)>();
 
+        protected Dictionary<string, Action<IRegister>> Uniques;
+
         public DecoratingRegistryInterceptor(IRegister inner)
         {
             this.inner = inner;
+
+            Uniques = ExtractUniques();
+            InterceptUniques(Uniques, inner);
         }
+
+        private static void InterceptUniques(Dictionary<string, Action<IRegister>> uniques, IRegister interceptor)
+        {
+            var keys = uniques.Keys.ToArray();
+            foreach (var key in keys)
+            {
+                var existingFactory = uniques[key];
+                uniques[key] = r => existingFactory(interceptor);
+            }
+        }
+
+        private Dictionary<string, Action<IRegister>> ExtractUniques()
+        {
+            return (Dictionary<string, Action<IRegister>>)inner
+                .GetType()
+                .GetField("_uniques", BindingFlags.Instance | BindingFlags.NonPublic)
+                .GetValue(inner);
+        }
+
+
 
         public void Decorate<TService, TImplementation>()
         {

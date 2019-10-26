@@ -1,7 +1,6 @@
-﻿using System;
-using Umbraco.Core.Composing;
+﻿using Umbraco.Core.Composing;
 
-namespace UmbUkFest19.DI.Tests.Interception
+namespace UmbUkFest19.DI.Core.Interception
 {
     public interface IInterceptingRegister : IRegister
     {
