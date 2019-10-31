@@ -17,8 +17,7 @@ namespace UmbUkFest19.DI.Tests
             base.Compose();
 
             var container = (ServiceContainer)Composition.Concrete;
-            container.Decorate<IPublishedSnapshotService>((factory, existing) =>
-                new DecoratingPublishedSnapshotService(existing));
+            container.Decorate<IPublishedSnapshotService>((factory, existing) => new DecoratingPublishedSnapshotService(existing));
         }
 
         [Test]
